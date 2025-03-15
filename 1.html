@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Senha</title>
+    <style>
+        /* Estilos gerais */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #002366;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            max-width: 500px;
+        }
+
+        .dica {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .cadeado-img {
+            width: 100px;
+            margin-bottom: 20px;
+        }
+
+        input[type="password"] {
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            width: 200px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ffcc00;
+            color: #002366;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #e6b800;
+        }
+
+        .mensagem {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .conteudo-especial {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .contrato {
+            background-color: white;
+            color: #002366;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: left;
+        }
+
+        .contrato h2 {
+            text-align: center;
+        }
+
+        .contrato button {
+            display: block;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://cdn-icons-png.flaticon.com/512/61/61457.png" alt="Cadeado" class="cadeado-img">
+        <div class="dica" id="dica">Dica: Você é a chave</div>
+        <input type="password" id="senhaInput" placeholder="Digite a senha">
+        <button id="verificarSenha">Verificar Senha</button>
+        <div id="mensagem" class="mensagem"></div>
+
+        <!-- Conteúdo especial (Poema) -->
+        <div id="conteudoEspecial" class="conteudo-especial">
+            <h2>Wow, que legal!</h2>
+            <p>Você acertou a senha! Aqui está o conteúdo especial:</p>
+            <a href="./poema.html" target="_blank">Clique aqui para acessar o poema</a>
+        </div>
+
+        <!-- Contrato de amizade -->
+        <div id="contrato" class="conteudo-especial contrato">
+            <h2>Contrato de Amizade Vitalícia</h2>
+            <p>
+                Eu, <input type="text" id="nomeAmigo" placeholder="Seu nome">, declaro que aceito ser seu amigo(a) para sempre,
+                em todos os momentos, alegres ou difíceis. Prometo compartilhar risadas, segredos e apoio incondicional.
+                Que nossa amizade seja eterna! 💚💜
+            </p>
+            <button id="assinarContrato">Assinar Contrato</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const senhaInput = document.getElementById("senhaInput");
+            const verificarSenhaButton = document.getElementById("verificarSenha");
+            const mensagemDiv = document.getElementById("mensagem");
+            const dicaDiv = document.getElementById("dica");
+            const conteudoEspecialDiv = document.getElementById("conteudoEspecial");
+            const contratoDiv = document.getElementById("contrato");
+
+            let tentativas = 3;
+            let senhaAtual = "Ster";
+            let dicaAtual = "Dica: Você é a chave";
+
+            verificarSenhaButton.addEventListener("click", function() {
+                const senhaDigitada = senhaInput.value.trim();
+
+                if (senhaDigitada === senhaAtual) {
+                    if (senhaAtual === "Ster") {
+                        window.location.href = "./poema.html"; // Corrigido o caminho
+                    } else if (senhaAtual === "Verde") {
+                        contratoDiv.style.display = "block";
+                        senhaInput.style.display = "none";
+                        verificarSenhaButton.style.display = "none";
+                        mensagemDiv.style.display = "none";
+                        dicaDiv.style.display = "none";
+                    }
+                } else {
+                    tentativas--;
+                    if (tentativas > 0) {
+                        mensagemDiv.textContent = `Senha incorreta. Você tem mais ${tentativas} tentativa(s).`;
+                        mensagemDiv.style.color = "#ff0000";
+
+                        if (tentativas === 1) {
+                            senhaAtual = "Verde";
+                            dicaAtual = "Dica: Minha cor favorita?";
+                            dicaDiv.textContent = dicaAtual;
+                        }
+                    } else {
+                        mensagemDiv.textContent = "Suas tentativas acabaram.";
+                        mensagemDiv.style.color = "#ff0000";
+                        senhaInput.disabled = true;
+                        verificarSenhaButton.disabled = true;
+                    }
+                }
+            });
+
+            const assinarContratoButton = document.getElementById("assinarContrato");
+            assinarContratoButton.addEventListener("click", function() {
+                const nomeAmigo = document.getElementById("nomeAmigo").value.trim();
+                if (nomeAmigo) {
+                    alert(`Contrato assinado por ${nomeAmigo}! Amizade vitalícia confirmada! 💚`);
+                } else {
+                    alert("Por favor, insira seu nome para assinar o contrato.");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
